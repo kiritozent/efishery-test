@@ -1,0 +1,13 @@
+@use '../../../styles/global.scss';
+
+.loading-overlay-container {
+  background-color: rgba($color: white, $alpha: 0.4);
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
