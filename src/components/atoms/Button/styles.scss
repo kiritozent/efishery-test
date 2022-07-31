@@ -1,0 +1,67 @@
+@use '../../../styles/global.scss';
+
+.button-container {
+  background-color: white;
+  border-radius: 4px;
+}
+.button {
+  @extend .flex-row;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  transition: background-color 0.2s linear, color 0.2s linear, border-color 0.2s linear;
+  font-weight: bold;
+  @media screen and (max-width: 480px) {
+    font-size: 14px;
+    padding: 4px;
+  }
+}
+
+.primary {
+  border: 1px solid global.$primary-color;
+  color: global.$primary-color;
+  &:hover {
+    background-color: rgba($color: global.$primary-color, $alpha: 0.2);
+    border: 1px solid white;
+  }
+}
+.secondary {
+  border: 1px solid global.$secondary-color;
+  color: global.$secondary-color;
+  &:hover {
+    background-color: rgba($color: global.$secondary-color, $alpha: 0.2);
+    border: 1px solid white;
+  }
+}
+.success {
+  border: 1px solid green;
+  color: green;
+  &:hover {
+    background-color: rgba($color: green, $alpha: 0.2);
+    border: 1px solid white;
+  }
+}
+.warning {
+  border: 1px solid orange;
+  color: orange;
+  &:hover {
+    background-color: rgba($color: orange, $alpha: 0.2);
+    border: 1px solid white;
+  }
+}
+.danger {
+  border: 1px solid red;
+  color: red;
+  &:hover {
+    background-color: rgba($color: red, $alpha: 0.2);
+    border: 1px solid white;
+  }
+}
+.disabled {
+  cursor: default !important;
+  background-color: lightgrey;
+  color: white;
+}
