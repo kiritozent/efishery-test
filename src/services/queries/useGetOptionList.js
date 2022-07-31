@@ -20,9 +20,9 @@ const getOptionList = async (type, params) => {
   switch (type) {
     case 'city':
     case 'size':
-      return response?.data?.data;
+      return response?.data;
     case 'province': {
-      return uniqBy(response?.data?.data ?? [], 'province').map((item) => ({ type: item.type }));
+      return uniqBy(response?.data ?? [], 'province').map((item) => ({ province: item.province }));
     }
     default:
       throw response;

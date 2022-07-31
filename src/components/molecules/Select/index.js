@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import _ from 'lodash';
-import useGetSelectOption from '@services/global/queries/useGetSelectOption';
 import ReactSelect from 'react-select';
 import PropTypes from 'prop-types';
+import useGetOptionList from '../../../services/queries/useGetOptionList';
 
 const Select = (props) => {
   const {
@@ -12,10 +12,11 @@ const Select = (props) => {
     value,
     valueKey = 'value',
     labelKey = 'label',
+    placeholder = '',
     onChange
   } = props;
 
-  const { data: queryData = options || [], isLoading: queryIsLoading } = useGetSelectOption(type);
+  const { data: queryData = options || [], isLoading: queryIsLoading } = useGetOptionList(type);
 
   const selectValue = useMemo(() => {
     let result;
@@ -46,6 +47,7 @@ const Select = (props) => {
       options={queryData}
       getOptionLabel={(option) => _.get(option, labelKey)}
       getOptionValue={(option) => _.get(option, valueKey)}
+      placeholder={placeholder}
     />
   );
 };
@@ -57,7 +59,8 @@ Select.propTypes = {
   value: PropTypes.oneOfType([PropTypes.bool, PropTypes.number, PropTypes.string]),
   valueKey: PropTypes.string,
   labelKey: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  placeholder: PropTypes.string
 };
 
 export default Select;

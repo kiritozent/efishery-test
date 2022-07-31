@@ -1,18 +1,43 @@
 import React from 'react';
-import Table from '../../../components/organisms/Table';
+import { FaPlus } from 'react-icons/fa';
+import Button from '../../../components/atoms/Button';
+
 import BaseContent from '../../../components/templates/BaseContent';
-import useGetTableList from '../../../services/queries/useGetTableList';
+import DataTable from '../../../components/templates/DataTable';
 
 const HomeScreen = () => {
-  const { data: tableData = [], isLoading: tableLoading } = useGetTableList('list', { filter: {} });
   return (
-    <BaseContent>
-      <Table
-        data={tableData}
-        loading={tableLoading}
+    <BaseContent
+      title="Fish Price List"
+      trailing={
+        <Button variant="primary">
+          <FaPlus />
+          Add Fish Price
+        </Button>
+      }>
+      <DataTable
+        dataUrl="list"
+        filters={[
+          {
+            type: 'search',
+            label: 'Fish Name'
+          },
+          {
+            type: 'select',
+            label: 'Province',
+            filterKey: 'province',
+            selectType: 'province'
+          },
+          {
+            type: 'select',
+            label: 'Size',
+            filterKey: 'size',
+            selectType: 'size'
+          }
+        ]}
         columns={[
           {
-            Header: 'Name',
+            Header: 'Fish Name',
             accessor: 'komoditas'
           },
           {

@@ -1,0 +1,12 @@
+@import '../../../styles/global.scss';
+
+.table-header-container {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 8px 0px;
+  gap: 8px;
+  @media screen and (max-width: 480px) {
+    flex-direction: column;
+  }
+}
