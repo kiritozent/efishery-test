@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: efishery-test-prod
+    image: efishery-test-prod
+    build:
+      context: .
+      target: production
