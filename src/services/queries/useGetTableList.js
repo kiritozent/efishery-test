@@ -1,19 +1,15 @@
-import { stringify } from 'query-string';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import config from '../../constants/config';
 import apiClient from '../api';
 
-const getTableList = async (url, params) => {
-  const response = await apiClient.get(`${config.host}/${url}?${stringify(params)}`);
+const getTableList = async (url) => {
+  const response = await apiClient.get(`${config.host}/${url}`);
 
   return response?.data;
 };
 
-const useGetTableList = (url, { filter }) => {
-  const params = {
-    search: JSON.stringify(filter)
-  };
-  return useQuery([url, params], () => getTableList(url, params), {
+const useGetTableList = (url) => {
+  return useQuery([url], () => getTableList(url), {
     keepPreviousData: true
   });
 };
