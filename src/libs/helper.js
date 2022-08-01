@@ -23,6 +23,17 @@ export const filterData = (data = [], filters, callback) => {
             filteredCount += 1;
           }
           break;
+        case 'area': {
+          const [provinceKey, cityKey] = element?.split?.(',') ?? [null, null];
+          const isProvince = filter?.value?.province
+            ? item?.[provinceKey] === filter?.value?.province
+            : true;
+          const isCity = filter?.value?.city ? item?.[cityKey] === filter?.value?.city : true;
+          if (isProvince && isCity) {
+            filteredCount += 1;
+          }
+          break;
+        }
         case 'number-range': {
           const minimum = filter?.value?.min ? item?.[element] >= filter?.value?.min : true;
           const maximum = filter?.value?.max ? item?.[element] <= filter?.value?.max : true;

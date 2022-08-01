@@ -8,10 +8,10 @@ import PropTypes from 'prop-types';
 import Select from '../Select';
 import './styles.scss';
 import FieldItem from '../FieldItem';
+import AreaSelect from '../../organisms/AreaSelect';
 
 const FilterField = (props) => {
   const { filterKey, type, label, selectType, selectOptions, placeholder } = props;
-
   const filterData = useRecoilValue(globalTableFilterAtom);
 
   const onChangeFilter = useRecoilCallback(
@@ -26,7 +26,6 @@ const FilterField = (props) => {
   );
 
   const childField = useMemo(() => {
-    console.log(filterData?.[filterKey]?.value);
     switch (type) {
       case 'select':
         return () => (
@@ -43,6 +42,19 @@ const FilterField = (props) => {
               });
             }}
             placeholder={placeholder}
+          />
+        );
+      case 'area':
+        return () => (
+          <AreaSelect
+            value={filterData?.[filterKey]?.value}
+            onChange={(value) => {
+              console.log({ testing: value });
+              onChangeFilter(filterKey, {
+                type: 'area',
+                value
+              });
+            }}
           />
         );
       case 'search':
@@ -85,10 +97,7 @@ const FilterField = (props) => {
                   type: 'number-range',
                   value: {
                     ...filterData?.[filterKey]?.value,
-                    max:
-                      parseInt(e.target.value) < filterData?.[filterKey]?.value?.['min']
-                        ? null
-                        : parseInt(e.target.value)
+                    max: parseInt(e.target.value)
                   }
                 });
               }}
@@ -102,12 +111,14 @@ const FilterField = (props) => {
 
   if (!childField) return null;
 
+  if (type === 'area') return <>{childField?.()}</>;
+
   return <FieldItem label={label}>{childField?.()}</FieldItem>;
 };
 
 FilterField.propTypes = {
   filterKey: PropTypes.string,
-  type: PropTypes.oneOf(['search', 'select', 'number-range']),
+  type: PropTypes.oneOf(['search', 'select', 'number-range', 'area']),
   filterValue: PropTypes.any,
   label: PropTypes.any,
   selectType: PropTypes.oneOf(['size', 'city', 'province']),

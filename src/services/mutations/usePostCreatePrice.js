@@ -2,7 +2,8 @@ import { useMutation } from '@tanstack/react-query';
 import config from '../../constants/config';
 import apiClient from '../api';
 
-export const postCreatePrice = async (body) => await apiClient.post(`${config?.host}/list`, body);
+export const postCreatePrice = async (body) =>
+  await apiClient.post(`${config?.host}/list`, JSON.stringify([body]));
 
 const usePostCreatePrice = (options) => {
   return useMutation((body) => postCreatePrice(body), {
