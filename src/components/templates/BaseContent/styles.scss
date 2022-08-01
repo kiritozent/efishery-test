@@ -1,6 +1,7 @@
 .base-container {
   display: flex;
   height: 100vh;
+  max-height: -webkit-fill-available;
   width: 100vw;
   flex-direction: column;
   .body-container {
