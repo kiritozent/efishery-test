@@ -13,10 +13,14 @@ const Select = (props) => {
     valueKey = 'value',
     labelKey = 'label',
     placeholder = '',
-    onChange
+    onChange,
+    filter,
+    ...restProps
   } = props;
 
-  const { data: queryData = options || [], isLoading: queryIsLoading } = useGetOptionList(type);
+  const { data: queryData = options || [], isLoading: queryIsLoading } = type
+    ? useGetOptionList(type, filter)
+    : { data: options ?? [], isLoading: false };
 
   const selectValue = useMemo(() => {
     let result = null;
@@ -30,6 +34,7 @@ const Select = (props) => {
 
   return (
     <ReactSelect
+      {...restProps}
       styles={{
         container: (provided) => ({
           ...provided,
@@ -60,7 +65,8 @@ Select.propTypes = {
   valueKey: PropTypes.string,
   labelKey: PropTypes.string,
   onChange: PropTypes.func,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  filter: PropTypes.object
 };
 
 export default Select;

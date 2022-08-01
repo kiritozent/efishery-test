@@ -1,16 +1,24 @@
 import React from 'react';
 import { FaPlus } from 'react-icons/fa';
+import { useSetRecoilState } from 'recoil';
 import Button from '../../../components/atoms/Button';
 
 import BaseContent from '../../../components/templates/BaseContent';
 import DataTable from '../../../components/templates/DataTable';
+import { globalOpenedModalKeyAtom } from '../../../stores/global/atoms';
+import CreatePriceModal from '../../modals/CreatePrice';
 
 const HomeScreen = () => {
+  const setOpenedModalKey = useSetRecoilState(globalOpenedModalKeyAtom);
+
+  const openCreatePriceModal = () => {
+    setOpenedModalKey('MODAL_CREATE_PRICE');
+  };
   return (
     <BaseContent
       title="Fish Price List"
       trailing={
-        <Button variant="primary">
+        <Button variant="primary" onClick={openCreatePriceModal}>
           <FaPlus />
           Add Fish Price
         </Button>
@@ -24,16 +32,16 @@ const HomeScreen = () => {
             filterKey: 'komoditas'
           },
           {
-            type: 'select',
-            label: 'Province',
-            filterKey: 'area_provinsi',
-            selectType: 'province'
+            type: 'area',
+            label: 'Area',
+            filterKey: 'area_provinsi,area_kota'
           },
           {
             type: 'select',
             label: 'Size',
             filterKey: 'size',
-            selectType: 'size'
+            selectType: 'size',
+            placeholder: 'Select Size'
           },
           {
             type: 'number-range',
@@ -64,6 +72,7 @@ const HomeScreen = () => {
           }
         ]}
       />
+      <CreatePriceModal />
     </BaseContent>
   );
 };

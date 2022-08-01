@@ -1,12 +1,19 @@
 @import '../../../styles/global.scss';
 
 .table-header-container {
-  display: inline-flex;
+  display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   align-items: flex-end;
   padding: 8px 0px;
   gap: 8px;
+  .item-container {
+    width: 240px;
+  }
   @media screen and (max-width: 480px) {
     flex-direction: column;
+    .item-container {
+      width: 100%;
+    }
   }
 }

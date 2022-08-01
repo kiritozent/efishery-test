@@ -2,6 +2,7 @@ import { uniqBy } from 'lodash';
 import { useQuery } from '@tanstack/react-query';
 import config from '../../constants/config';
 import apiClient from '../api';
+import { stringify } from 'query-string';
 
 const URL_TYPE = {
   city: 'area',
@@ -9,8 +10,12 @@ const URL_TYPE = {
   size: 'size'
 };
 
-const getOptionList = async (type) => {
-  const response = await apiClient.get(`${config.host}/option_${URL_TYPE[type]}`);
+const getOptionList = async (type, filter) => {
+  const response = await apiClient.get(
+    `${config.host}/option_${URL_TYPE[type]}?${
+      filter ? stringify({ search: JSON.stringify(filter) }) : ''
+    }`
+  );
   switch (type) {
     case 'city':
     case 'size':
