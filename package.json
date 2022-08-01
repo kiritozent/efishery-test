@@ -11,7 +11,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
-    "json-reactform": "git+https://github.com/kiritozent/json-reactform.git",
+    "json-reactform": "github:kiritozent/json-reactform",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "query-string": "^7.1.1",
