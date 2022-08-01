@@ -20,12 +20,13 @@ const HomeScreen = () => {
         filters={[
           {
             type: 'search',
-            label: 'Fish Name'
+            label: 'Fish Name',
+            filterKey: 'komoditas'
           },
           {
             type: 'select',
             label: 'Province',
-            filterKey: 'province',
+            filterKey: 'area_provinsi',
             selectType: 'province'
           },
           {
@@ -33,6 +34,11 @@ const HomeScreen = () => {
             label: 'Size',
             filterKey: 'size',
             selectType: 'size'
+          },
+          {
+            type: 'number-range',
+            label: 'Price',
+            filterKey: 'price'
           }
         ]}
         columns={[

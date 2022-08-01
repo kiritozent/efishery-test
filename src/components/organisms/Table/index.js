@@ -1,12 +1,26 @@
-import React from 'react';
-import { usePagination, useTable } from 'react-table';
+import React, { useEffect, useState } from 'react';
+import { usePagination, useSortBy, useTable } from 'react-table';
 import LoadingOverlay from '../../molecules/LoadingOverlay';
 import PropTypes from 'prop-types';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import './styles.scss';
 import TableEmpty from '../../molecules/TableEmpty';
+import { useRecoilValue } from 'recoil';
+import { globalTableFilterAtom } from '../../../stores/global/atoms';
+import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
+import { filterData } from '../../../libs/helper';
+import { debounce } from 'lodash';
+import { BiChevronLeft, BiChevronRight, BiFirstPage, BiLastPage } from 'react-icons/bi';
 const Table = (props) => {
   const { columns, data, loading } = props;
+  const [filteredData, setFilteredData] = useState([...data]);
+  const tableFilter = useRecoilValue(globalTableFilterAtom);
+
+  useEffect(() => {
+    debounce(filterData, 1000)(data, tableFilter, (result) => {
+      setFilteredData(result);
+    });
+  }, [tableFilter, data]);
 
   const {
     getTableProps,
@@ -15,7 +29,6 @@ const Table = (props) => {
     prepareRow,
     page, // Instead of using 'rows', we'll use page,
     // which has only the rows for the active page
-
     // The rest of these things are super handy, too ;)
     canPreviousPage,
     canNextPage,
@@ -29,9 +42,10 @@ const Table = (props) => {
   } = useTable(
     {
       columns,
-      data,
+      data: filteredData,
       initialState: { pageIndex: 0, pageSize: 10 }
     },
+    useSortBy,
     usePagination
   );
 
@@ -40,13 +54,26 @@ const Table = (props) => {
     <>
       <div className="table-container">
         <LoadingOverlay loading={loading}>
-          <table {...getTableProps()} striped bordered>
+          <table {...getTableProps()}>
             <thead>
               {headerGroups.map((headerGroup, groupIndex) => (
                 <tr key={`header-${groupIndex}`} {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map((column, index) => (
-                    <th key={`header-${groupIndex}-${index}`} {...column.getHeaderProps()}>
+                    <th
+                      key={`header-${groupIndex}-${index}`}
+                      {...column.getHeaderProps(column.getSortByToggleProps())}>
                       {column.render('Header')}
+                      <span>
+                        {column.isSorted ? (
+                          column.isSortedDesc ? (
+                            <FaArrowDown />
+                          ) : (
+                            <FaArrowUp />
+                          )
+                        ) : (
+                          ''
+                        )}
+                      </span>
                     </th>
                   ))}
                 </tr>
@@ -104,18 +131,26 @@ const Table = (props) => {
             </option>
           ))}
         </select>
-        <Pagination style={{ margin: 0 }}>
+        <Pagination style={{ margin: 0, padding: 0, paddingLeft: '8px' }} size="sm">
           <PaginationItem disabled={!canPreviousPage} onClick={() => gotoPage(0)}>
-            <PaginationLink>{'<<'}</PaginationLink>
+            <PaginationLink>
+              <BiFirstPage size={'24px'} />
+            </PaginationLink>
           </PaginationItem>
           <PaginationItem disabled={!canPreviousPage} onClick={() => previousPage()}>
-            <PaginationLink>{'<'}</PaginationLink>
+            <PaginationLink>
+              <BiChevronLeft size={'24px'} />
+            </PaginationLink>
           </PaginationItem>
           <PaginationItem disabled={!canNextPage} onClick={() => nextPage()}>
-            <PaginationLink>{'>'}</PaginationLink>
+            <PaginationLink>
+              <BiChevronRight size={'24px'} />
+            </PaginationLink>
           </PaginationItem>
           <PaginationItem disabled={!canNextPage} onClick={() => gotoPage(pageCount - 1)}>
-            <PaginationLink>{'>>'}</PaginationLink>
+            <PaginationLink>
+              <BiLastPage size={'24px'} />
+            </PaginationLink>
           </PaginationItem>
         </Pagination>
       </div>

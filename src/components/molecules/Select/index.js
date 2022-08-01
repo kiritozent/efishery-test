@@ -19,7 +19,7 @@ const Select = (props) => {
   const { data: queryData = options || [], isLoading: queryIsLoading } = useGetOptionList(type);
 
   const selectValue = useMemo(() => {
-    let result;
+    let result = null;
     if (value) {
       const temp = [...queryData];
       const findData = temp.find((option) => _.get(option, valueKey || 'value') === value);
