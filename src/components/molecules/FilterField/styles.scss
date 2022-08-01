@@ -1,0 +1,10 @@
+@import '../../../styles/global.scss';
+
+.number-range-container {
+  @extend .flex-row;
+  align-items: center;
+  gap: 8px;
+  input {
+    flex: 1;
+  }
+}

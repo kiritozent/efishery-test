@@ -31,13 +31,7 @@ const getOptionList = async (type, params) => {
 
 const useGetOptionList = (type) => {
   return useQuery(['siteList', type], () => getOptionList(type), {
-    keepPreviousData: true,
-    onSuccess: (response) => {
-      console.log({ response });
-    },
-    onError: (error) => {
-      console.error({ error });
-    }
+    keepPreviousData: true
   });
 };
 

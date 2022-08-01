@@ -1,13 +1,19 @@
 import React from 'react';
-import images from '../../../images';
+import PropTypes from 'prop-types';
 import './styles.scss';
 
-const Header = () => {
+const Header = (props) => {
   return (
     <div className="header-container">
-      <img className="header-logo" src={images.logo.efisheryLogo} />
+      <div className="header-title">{props?.title}</div>
+      {props?.trailing}
     </div>
   );
+};
+
+Header.propTypes = {
+  title: PropTypes.string,
+  trailing: PropTypes.node
 };
 
 export default Header;

@@ -3,7 +3,7 @@
 .table-header-container {
   display: inline-flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: flex-end;
   padding: 8px 0px;
   gap: 8px;
   @media screen and (max-width: 480px) {

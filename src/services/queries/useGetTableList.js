@@ -14,13 +14,7 @@ const useGetTableList = (url, { filter }) => {
     search: JSON.stringify(filter)
   };
   return useQuery([url, params], () => getTableList(url, params), {
-    keepPreviousData: true,
-    onSuccess: (response) => {
-      console.log({ response });
-    },
-    onError: (error) => {
-      console.error({ error });
-    }
+    keepPreviousData: true
   });
 };
 
