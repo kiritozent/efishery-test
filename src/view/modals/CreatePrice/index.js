@@ -16,7 +16,7 @@ import moment from 'moment';
 const CreatePriceModal = () => {
   const [openedModalKey, setOpenedModalKey] = useRecoilState(globalOpenedModalKeyAtom);
   const [selectedProvince, setSelectedProvince] = useState(null);
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [alertData, setAlertData] = useState(null);
   const { data } = useGetAreaList();
   const { data: sizeData } = useGetOptionList('size');
   const { mutate, isLoading } = usePostCreatePrice();
@@ -27,12 +27,12 @@ const CreatePriceModal = () => {
   };
 
   useEffect(() => {
-    if (showSuccessAlert) {
+    if (alertData) {
       setTimeout(() => {
-        setShowSuccessAlert(false);
+        setAlertData(null);
       }, 3000);
     }
-  }, [showSuccessAlert]);
+  }, [alertData]);
 
   const onSubmit = (values) => {
     const id = uuidv4();
@@ -49,7 +49,15 @@ const CreatePriceModal = () => {
     mutate(params, {
       onSuccess: () => {
         setRefreshHash(Math.random() * 10);
-        setShowSuccessAlert(true);
+        setAlertData({
+          message: 'Successfully Add new Fish Price'
+        });
+      },
+      onError: () => {
+        setAlertData({
+          color: 'danger',
+          message: 'There is an error, please try again'
+        });
       }
     });
   };
@@ -87,7 +95,7 @@ const CreatePriceModal = () => {
         </Button>
       </div>
       <LoadingOverlay loading={isLoading}>
-        <Alert isOpen={showSuccessAlert}>Successfully Add new Fish Price</Alert>
+        <Alert isOpen={alertData?.color}>{alertData?.message}</Alert>
         <ModalBody>
           <JsonReactform
             model={{
