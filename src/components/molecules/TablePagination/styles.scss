@@ -1,0 +1,24 @@
+.pagination {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 48px;
+  justify-content: center;
+  padding: 0px 16px;
+  width: 100%;
+  @media screen and (max-width: 480px) {
+    font-size: 12px;
+  }
+  .pagination-meta {
+    flex: 1;
+    gap: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .pagination-container {
+    margin-bottom: 0px;
+    padding: 0px;
+  }
+}
