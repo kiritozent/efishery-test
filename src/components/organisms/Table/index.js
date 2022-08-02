@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { usePagination, useSortBy, useTable } from 'react-table';
 import LoadingOverlay from '../../molecules/LoadingOverlay';
 import PropTypes from 'prop-types';
-import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import './styles.scss';
 import TableEmpty from '../../molecules/TableEmpty';
 import { useRecoilValue } from 'recoil';
@@ -10,7 +9,7 @@ import { globalTableFilterAtom } from '../../../stores/global/atoms';
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import { filterData } from '../../../libs/helper';
 import { debounce } from 'lodash';
-import { BiChevronLeft, BiChevronRight, BiFirstPage, BiLastPage } from 'react-icons/bi';
+import TablePagination from '../../molecules/TablePagination';
 const Table = (props) => {
   const { columns, data, loading } = props;
   const [filteredData, setFilteredData] = useState([...data]);
@@ -32,7 +31,7 @@ const Table = (props) => {
     // The rest of these things are super handy, too ;)
     canPreviousPage,
     canNextPage,
-    pageOptions,
+    pageOptions: { length },
     pageCount,
     gotoPage,
     nextPage,
@@ -79,7 +78,6 @@ const Table = (props) => {
                 </tr>
               ))}
             </thead>
-
             <tbody {...getTableBodyProps()}>
               {page.length === 0 ? (
                 <tr>
@@ -107,53 +105,18 @@ const Table = (props) => {
           </table>
         </LoadingOverlay>
       </div>
-      {/* 
-        Pagination can be built however you'd like. 
-        This is just a very basic UI implementation:
-      */}
-      <div className="pagination">
-        <div className="pagination-meta">
-          <span>
-            Page{' '}
-            <strong>
-              {pageIndex + 1} of {pageOptions.length}
-            </strong>{' '}
-          </span>
-        </div>
-        <select
-          value={pageSize}
-          onChange={(e) => {
-            setPageSize(Number(e.target.value));
-          }}>
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              {pageSize}
-            </option>
-          ))}
-        </select>
-        <Pagination style={{ margin: 0, padding: 0, paddingLeft: '8px' }} size="sm">
-          <PaginationItem disabled={!canPreviousPage} onClick={() => gotoPage(0)}>
-            <PaginationLink>
-              <BiFirstPage size={'24px'} />
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem disabled={!canPreviousPage} onClick={() => previousPage()}>
-            <PaginationLink>
-              <BiChevronLeft size={'24px'} />
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem disabled={!canNextPage} onClick={() => nextPage()}>
-            <PaginationLink>
-              <BiChevronRight size={'24px'} />
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem disabled={!canNextPage} onClick={() => gotoPage(pageCount - 1)}>
-            <PaginationLink>
-              <BiLastPage size={'24px'} />
-            </PaginationLink>
-          </PaginationItem>
-        </Pagination>
-      </div>
+      <TablePagination
+        canPreviousPage={canPreviousPage}
+        canNextPage={canNextPage}
+        pageLength={length}
+        pageCount={pageCount}
+        gotoPage={gotoPage}
+        nextPage={nextPage}
+        previousPage={previousPage}
+        setPageSize={setPageSize}
+        pageSize={pageSize}
+        pageIndex={pageIndex}
+      />
     </>
   );
 };
