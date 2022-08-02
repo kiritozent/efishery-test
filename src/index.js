@@ -9,11 +9,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <QueryClientProvider client={new QueryClient()}>
-      <App />
-    </QueryClientProvider>
-  </React.StrictMode>
+  <QueryClientProvider client={new QueryClient()}>
+    <App />
+  </QueryClientProvider>
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -43,7 +43,7 @@
 
 ### 8. Alert success
 
-- Fitur menampilkan alert ketika user berhasil menambahkan data ke server, akan tampil selama 3 detik
+- Fitur menampilkan alert ketika user berhasil / gagal menambahkan data ke server, akan tampil selama 3 detik
 
 ### 9. Fish Price Form
 

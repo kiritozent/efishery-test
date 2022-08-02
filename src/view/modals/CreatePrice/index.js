@@ -95,7 +95,9 @@ const CreatePriceModal = () => {
         </Button>
       </div>
       <LoadingOverlay loading={isLoading}>
-        <Alert isOpen={alertData?.color}>{alertData?.message}</Alert>
+        <Alert isOpen={!!alertData} color={alertData?.color}>
+          {alertData?.message}
+        </Alert>
         <ModalBody>
           <JsonReactform
             model={{
